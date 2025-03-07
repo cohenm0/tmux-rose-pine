@@ -240,6 +240,10 @@ main() {
     current_folder_icon="$(get_tmux_option "@rose_pine_folder_icon" "")"
     readonly current_folder_icon
 
+    local window_zoom_icon
+    window_zoom_icon="$(get_tmux_option "@rose_pine_zoom_icon" "🔎")"
+    readonly window_zoom_icon
+
     # Changes the icon / character that goes between each window's name in the bar
     local window_status_separator
     window_status_separator="$(get_tmux_option "@rose_pine_window_status_separator" "  ")"
@@ -257,8 +261,9 @@ main() {
     user_window_count="$(get_tmux_option "@rose_pine_window_count" "")"
 
     # Custom window status that goes between the number and the window name
-    local custom_window_sep="#[fg=$thm_iris]#I#[fg=$thm_iris,]$window_separator#[fg=$thm_iris]#W"
-    local custom_window_sep_current="#I#[fg=$thm_gold,bg=""]$window_separator#[fg=$thm_gold,bg=""]#W"
+    # #{?window_zoomed_flag,#{E:$window_zoom_icon},}
+    local custom_window_sep="#[fg=$thm_iris]#I#[fg=$thm_iris,]$window_separator#[fg=$thm_iris]#{?window_zoomed_flag,$window_zoom_icon,}#W"
+    local custom_window_sep_current="#I#[fg=$thm_gold,bg=""]$window_separator#[fg=$thm_gold,bg=""]#{?window_zoomed_flag,$window_zoom_icon,}#W"
 
     local right_separator
     right_separator="$(get_tmux_option "@rose_pine_right_separator" "  ")"
